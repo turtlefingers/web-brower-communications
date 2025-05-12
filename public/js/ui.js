@@ -56,19 +56,6 @@ function switchTab(tabId) {
     // 선택된 탭과 패널 활성화
     document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
     document.querySelector(`[data-module="${tabId}"]`).classList.add('active');
-
-    // WebRTC 탭으로 전환 시 ID 표시 업데이트
-    if (tabId === 'webrtc') {
-        updatePeerIdDisplay();
-    }
-}
-
-// ID 표시 업데이트 함수
-function updatePeerIdDisplay() {
-    const peerIdElement = document.getElementById('myPeerId');
-    if (peerIdElement) {
-        peerIdElement.textContent = myPeerId ? `내 ID: ${myPeerId}` : '내 ID: 연결 중...';
-    }
 }
 
 // 로그 컨테이너 토글 함수

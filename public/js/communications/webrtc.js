@@ -85,6 +85,7 @@ export function sendPeerMessage() {
 function updatePeerIdDisplay() {
     const peerIdElement = document.getElementById('myPeerId');
     if (peerIdElement) {
+        console.log(myPeerId);
         peerIdElement.textContent = myPeerId ? `내 ID: ${myPeerId}` : '내 ID: 연결 중...';
     }
 } 
