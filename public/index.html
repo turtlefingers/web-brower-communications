@@ -29,6 +29,7 @@
             <button class="tab-btn" data-tab="webrtc">WebRTC</button>
             <button class="tab-btn" data-tab="sse">SSE</button>
             <button class="tab-btn" data-tab="longpolling">Long Polling</button>
+            <button class="tab-btn" data-tab="serial">Serial</button>
         </div>
 
         <div class="panels-container">
@@ -148,6 +149,24 @@
                     <button onclick="toggleLongPolling()" id="longPollingToggle">Long Polling 시작</button>
                 </div>
             </div>
+
+            <div class="panel" data-module="serial">
+                <h2>시리얼 통신</h2>
+                <div class="description">
+                    <p>Web Serial API를 사용한 시리얼 통신</p>
+                    <ul>
+                        <li>직렬 포트를 통한 양방향 통신</li>
+                        <li>하드웨어 장치와 직접 통신 가능</li>
+                        <li>마이크로컨트롤러, 센서 등과 연동 가능</li>
+                    </ul>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="serialMessage" placeholder="메시지를 입력하세요">
+                    <button onclick="connectSerialPort()">포트 연결</button>
+                    <button onclick="disconnectSerialPort()">연결 해제</button>
+                    <button onclick="sendSerialMessage()">전송</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -162,6 +181,7 @@
     </div>
 
     <script src="/js/ui.js"></script>
-    <script src="/js/app.js"></script>
+    <script type="module" src="/js/app.js"></script>
+    <script type="module" src="/js/communications/serial.js"></script>
 </body>
 </html> 
