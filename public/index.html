@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통신 방식 테스트</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+</head>
+<body>
+    <h1>통신 방식 테스트</h1>
+    
+    <div class="view-controls">
+        <button onclick="switchView('grid')" class="view-btn active" id="gridViewBtn">
+            <span class="icon">⊞</span> 그리드 뷰
+        </button>
+        <button onclick="switchView('tab')" class="view-btn" id="tabViewBtn">
+            <span class="icon">≡</span> 탭 뷰
+        </button>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <div class="tab-header" style="display: none;">
+            <button class="tab-btn active" data-tab="http">HTTP</button>
+            <button class="tab-btn" data-tab="websocket">WebSocket</button>
+            <button class="tab-btn" data-tab="socketio">Socket.IO</button>
+            <button class="tab-btn" data-tab="mqtt">MQTT</button>
+            <button class="tab-btn" data-tab="webrtc">WebRTC</button>
+            <button class="tab-btn" data-tab="sse">SSE</button>
+            <button class="tab-btn" data-tab="longpolling">Long Polling</button>
+        </div>
+
+        <div class="panels-container">
+            <div class="panel" data-module="http">
+                <h2>HTTP 통신</h2>
+                <div class="description">
+                    <p>기본적인 요청-응답 방식의 통신</p>
+                    <ul>
+                        <li>클라이언트가 요청을 보내면 서버가 응답</li>
+                        <li>연결이 유지되지 않는 무상태(Stateless) 프로토콜</li>
+                        <li>실시간 통신에는 적합하지 않음</li>
+                    </ul>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="httpMessage" placeholder="메시지를 입력하세요">
+                    <button onclick="sendHttpMessage()">전송</button>
+                </div>
+            </div>
+
+            <div class="panel" data-module="websocket">
+                <h2>WebSocket 통신</h2>
+                <div class="description">
+                    <p>양방향 실시간 통신</p>
+                    <ul>
+                        <li>단일 TCP 연결로 양방향 통신 가능</li>
+                        <li>지속적인 연결 유지</li>
+                        <li>낮은 지연시간과 오버헤드</li>
+                    </ul>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="wsMessage" placeholder="메시지를 입력하세요">
+                    <button onclick="sendWsMessage()">전송</button>
+                </div>
+            </div>
+
+            <div class="panel" data-module="socketio">
+                <h2>Socket.IO 통신</h2>
+                <div class="description">
+                    <p>WebSocket 기반의 실시간 양방향 통신</p>
+                    <ul>
+                        <li>WebSocket을 지원하지 않는 브라우저도 지원</li>
+                        <li>자동 재연결, 이벤트 기반 통신</li>
+                        <li>방(Room) 기능으로 그룹 통신 지원</li>
+                    </ul>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="socketMessage" placeholder="메시지를 입력하세요">
+                    <button onclick="sendSocketMessage()">전송</button>
+                </div>
+            </div>
+
+            <div class="panel" data-module="mqtt">
+                <h2>MQTT 통신</h2>
+                <div class="description">
+                    <p>경량 메시지 큐 프로토콜</p>
+                    <ul>
+                        <li>발행-구독(Pub/Sub) 모델 사용</li>
+                        <li>최소한의 대역폭으로 통신</li>
+                        <li>IoT 기기에 적합한 프로토콜</li>
+                    </ul>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="mqttMessage" placeholder="메시지를 입력하세요">
+                    <button onclick="sendMqttMessage()">전송</button>
+                </div>
+            </div>
+
+            <div class="panel" data-module="webrtc">
+                <h2>WebRTC 통신</h2>
+                <div class="description">
+                    <p>P2P 실시간 통신</p>
+                    <ul>
+                        <li>브라우저 간 직접 통신 가능</li>
+                        <li>음성, 영상, 데이터 통신 지원</li>
+                        <li>NAT 통과를 위한 시그널링 서버 필요</li>
+                    </ul>
+                </div>
+                <div class="input-group">
+                    <div class="peer-id" id="myPeerId">내 ID: 연결 중...</div>
+                    <input type="text" id="peerId" placeholder="연결할 피어 ID">
+                    <input type="text" id="webrtcMessage" placeholder="메시지를 입력하세요">
+                    <button onclick="connectPeer()">연결</button>
+                    <button onclick="sendPeerMessage()">전송</button>
+                </div>
+            </div>
+
+            <div class="panel" data-module="sse">
+                <h2>SSE 통신</h2>
+                <div class="description">
+                    <p>서버에서 클라이언트로의 단방향 실시간 스트리밍</p>
+                    <ul>
+                        <li>HTTP 기반의 서버 푸시 기술</li>
+                        <li>자동 재연결 지원</li>
+                        <li>서버에서 클라이언트로의 단방향 통신만 가능</li>
+                    </ul>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="sseMessage" placeholder="메시지를 입력하세요">
+                    <button onclick="sendSSEMessage()">전송</button>
+                    <button onclick="toggleSSE()" id="sseToggle">SSE 연결 시작</button>
+                </div>
+            </div>
+
+            <div class="panel" data-module="longpolling">
+                <h2>Long Polling 통신</h2>
+                <div class="description">
+                    <p>HTTP 기반의 서버 푸시 시뮬레이션</p>
+                    <ul>
+                        <li>클라이언트가 요청을 보내고 서버가 응답할 때까지 대기</li>
+                        <li>서버에서 데이터가 있으면 즉시 응답</li>
+                        <li>실시간성은 떨어지지만 구현이 간단</li>
+                    </ul>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="longPollingMessage" placeholder="메시지를 입력하세요">
+                    <button onclick="sendLongPollingMessage()">전송</button>
+                    <button onclick="toggleLongPolling()" id="longPollingToggle">Long Polling 시작</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="log-container">
+        <div class="panel">
+            <h2>
+                <div class="toggle-btn"></div>
+                <span>통신 로그</span>
+            </h2>
+            <div id="logContainer"></div>
+        </div>
+    </div>
+
+    <script src="/js/ui.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html> 
