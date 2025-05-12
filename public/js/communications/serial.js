@@ -58,10 +58,18 @@ export async function disconnectSerialPort() {
             await writer.close();
             writer = null;
         }
-        await readableStreamClosed;
-        await writableStreamClosed;
-        await port.close();
-        port = null;
+        if (readableStreamClosed) {
+            await readableStreamClosed;
+            readableStreamClosed = null;
+        }
+        if (writableStreamClosed) {
+            await writableStreamClosed;
+            writableStreamClosed = null;
+        }
+        if (port) {
+            await port.close();
+            port = null;
+        }
         addLog('Serial', '시리얼 포트 연결이 해제되었습니다.');
     } catch (error) {
         addLog('Serial', `연결 해제 실패: ${error.message}`);
