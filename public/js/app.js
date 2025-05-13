@@ -6,6 +6,7 @@ import { initPeer, connectPeer, sendPeerMessage } from './communications/webrtc.
 import { toggleSSE, sendSSEMessage } from './communications/sse.js';
 import { toggleLongPolling, sendLongPollingMessage } from './communications/longpolling.js';
 import { connectSerialPort, disconnectSerialPort, sendSerialMessage } from './communications/serial.js';
+import { connectBluetooth, disconnectBluetooth, sendBluetoothMessage } from './communications/bluetooth.js';
 
 // HTTP 메시지 전송
 async function sendHttpMessage() {
@@ -39,6 +40,9 @@ window.sendLongPollingMessage = sendLongPollingMessage;
 window.connectSerialPort = connectSerialPort;
 window.disconnectSerialPort = disconnectSerialPort;
 window.sendSerialMessage = sendSerialMessage;
+window.connectBluetooth = connectBluetooth;
+window.disconnectBluetooth = disconnectBluetooth;
+window.sendBluetoothMessage = sendBluetoothMessage;
 
 // 초기화
 initPeer();

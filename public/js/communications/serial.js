@@ -93,7 +93,8 @@ async function readSerialData(reader) {
 }
 
 // 시리얼 데이터 전송
-export async function sendSerialMessage(message) {
+export async function sendSerialMessage() {
+    const message = document.getElementById('serialMessage').value;
     if (!writer) {
         addLog('Serial', '시리얼 포트가 연결되어 있지 않습니다.');
         return;

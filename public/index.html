@@ -30,6 +30,7 @@
             <button class="tab-btn" data-tab="sse">SSE</button>
             <button class="tab-btn" data-tab="longpolling">Long Polling</button>
             <button class="tab-btn" data-tab="serial">Serial</button>
+            <button class="tab-btn" data-tab="bluetooth">Bluetooth</button>
         </div>
 
         <div class="panels-container">
@@ -164,7 +165,29 @@
                     <input type="text" id="serialMessage" placeholder="메시지를 입력하세요">
                     <button onclick="connectSerialPort()">포트 연결</button>
                     <button onclick="disconnectSerialPort()">연결 해제</button>
-                    <button onclick="sendSerialMessage()">전송</button>
+                    <button onclick="sendSerialNumber()">전송</button>
+                </div>
+            </div>
+
+            <div class="panel" data-module="bluetooth">
+                <h2>블루투스 통신</h2>
+                <div class="description">
+                    <p>Web Bluetooth API를 사용한 블루투스 통신</p>
+                    <ul>
+                        <li>BLE(Bluetooth Low Energy) 장치와 통신</li>
+                        <li>저전력 무선 통신</li>
+                        <li>센서, IoT 기기 등과 연동 가능</li>
+                    </ul>
+                    <div class="browser-support">
+                        <p class="warning">※ Chrome, Edge, Opera 브라우저에서만 지원됩니다.</p>
+                        <p class="warning">※ HTTPS 또는 localhost 환경에서만 작동합니다.</p>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="bluetoothMessage" placeholder="메시지를 입력하세요">
+                    <button onclick="connectBluetooth()">장치 연결</button>
+                    <button onclick="disconnectBluetooth()">연결 해제</button>
+                    <button onclick="sendBluetoothMessage()">전송</button>
                 </div>
             </div>
         </div>
