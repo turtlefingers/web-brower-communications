@@ -37,7 +37,7 @@ logger.addLog('', '   ✓ HTTP 서버 설정 완료\n');
 
 // WebSocket 서버 설정
 logger.addLog('', '3. WebSocket 서버 설정 중...');
-setupWebSocketServer(logger.addLog);
+setupWebSocketServer(server, logger.addLog);
 logger.addLog('', '   ✓ WebSocket 서버 설정 완료\n');
 
 // MQTT 클라이언트 설정
@@ -91,7 +91,7 @@ server.listen(PORT, () => {
     });
     
     logger.addLog('', '\n=== 엔드포인트 정보 ===\n');
-    logger.addLog('', `WebSocket 서버: ws://localhost:4000`);
+    logger.addLog('', `WebSocket 서버: ws://localhost:${PORT}/ws`);
     logger.addLog('', `SSE 엔드포인트: http://localhost:${PORT}/api/sse`);
     logger.addLog('', `Long Polling 엔드포인트: http://localhost:${PORT}/api/longpoll`);
     logger.addLog('', `WebRTC 시그널링 서버: http://localhost:${PORT}/peerjs`);

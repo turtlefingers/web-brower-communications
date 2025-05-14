@@ -7,8 +7,8 @@ const MAX_RECONNECT_ATTEMPTS = 5;
 // WebSocket 초기화
 export function initWebSocket() {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    // Railway의 동적 포트 사용을 위해 포트 번호 제거
-    const wsUrl = `${protocol}//${window.location.host}`;
+    // 서버의 WebSocket 경로(/ws)를 포함한 URL 생성
+    const wsUrl = `${protocol}//${window.location.host}/ws`;
     
     ws = new WebSocket(wsUrl);
     

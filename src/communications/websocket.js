@@ -1,10 +1,9 @@
 const WebSocket = require('ws');
 
-function setupWebSocketServer(addLog) {
-    const PORT = process.env.PORT || 4000;
+function setupWebSocketServer(server, addLog) {
     const wss = new WebSocket.Server({ 
-        port: PORT,
-        perMessageDeflate: false // Railway 환경에서의 안정성을 위해 압축 비활성화
+        server,  // HTTP 서버 인스턴스 사용
+        path: '/ws'  // WebSocket 전용 경로 지정
     });
     
     wss.on('connection', (ws) => {
