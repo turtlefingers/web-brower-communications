@@ -91,7 +91,7 @@ server.listen(PORT, () => {
     });
     
     logger.addLog('', '\n=== 엔드포인트 정보 ===\n');
-    logger.addLog('', `WebSocket 서버: ws://localhost:8080`);
+    logger.addLog('', `WebSocket 서버: ws://localhost:4000`);
     logger.addLog('', `SSE 엔드포인트: http://localhost:${PORT}/api/sse`);
     logger.addLog('', `Long Polling 엔드포인트: http://localhost:${PORT}/api/longpoll`);
     logger.addLog('', `WebRTC 시그널링 서버: http://localhost:${PORT}/peerjs`);
