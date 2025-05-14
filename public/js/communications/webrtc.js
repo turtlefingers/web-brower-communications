@@ -8,8 +8,9 @@ let myPeerId = null;
 export function initPeer() {
     peer = new Peer(null, {
         host: window.location.hostname,
-        port: 9000,
+        port: 9000,  // PeerJS 서버의 고정 포트
         path: '/peerjs',
+        secure: window.location.protocol === 'https:',  // HTTPS 사용 시 secure 설정
         debug: 3,
         config: {
             'iceServers': [
@@ -37,6 +38,12 @@ export function initPeer() {
 
     peer.on('disconnected', () => {
         addLog('WebRTC', '서버와의 연결이 끊어졌습니다.');
+        // 연결이 끊어지면 3초 후 재연결 시도
+        setTimeout(() => {
+            if (peer) {
+                peer.reconnect();
+            }
+        }, 3000);
     });
 
     peer.on('close', () => {
