@@ -22,22 +22,35 @@
 
     <div class="container" id="mainContainer">
         <div class="tab-header" style="display: none;">
+            <!-- 1. HTTP 통신 그룹 -->
             <button class="tab-btn active" data-tab="http">HTTP</button>
+            <button class="tab-btn" data-tab="polling">Polling</button>
+            <button class="tab-btn" data-tab="longpolling">Long Polling</button>
+            <button class="tab-btn" data-tab="http2push">HTTP/2 Push</button>
+            <button class="tab-btn" data-tab="httpstream">HTTP Stream</button>
+            <button class="tab-btn" data-tab="sse">SSE</button>
+            
+            <!-- 2. 양방향 실시간 통신 그룹 -->
             <button class="tab-btn" data-tab="websocket">WebSocket</button>
             <button class="tab-btn" data-tab="socketio">Socket.IO</button>
+            
+            <!-- 3. 특수 목적 통신 그룹 -->
             <button class="tab-btn" data-tab="mqtt">MQTT</button>
             <button class="tab-btn" data-tab="webrtc">WebRTC</button>
-            <button class="tab-btn" data-tab="sse">SSE</button>
-            <button class="tab-btn" data-tab="longpolling">Long Polling</button>
             <button class="tab-btn" data-tab="serial">Serial</button>
             <button class="tab-btn" data-tab="bluetooth">Bluetooth</button>
         </div>
 
         <div class="panels-container">
+            <!-- 1. HTTP 통신 그룹 -->
             <div class="panel" data-module="http">
-                <h2>HTTP 통신</h2>
+                <h2>HTTP</h2>
                 <div class="description">
                     <p>기본적인 요청-응답 방식의 통신</p>
+                    <div class="tags">
+                        <span class="tag" data-type="webapi">WebAPI</span>
+                        <span class="tag" data-type="server">서버필요</span>
+                    </div>
                     <ul>
                         <li>클라이언트가 요청을 보내면 서버가 응답</li>
                         <li>연결이 유지되지 않는 무상태(Stateless) 프로토콜</li>
@@ -50,10 +63,110 @@
                 </div>
             </div>
 
+            <div class="panel" data-module="polling">
+                <h2>Polling</h2>
+                <div class="description">
+                    <p>주기적인 HTTP 요청을 통한 데이터 동기화</p>
+                    <div class="tags">
+                        <span class="tag" data-type="webapi">WebAPI</span>
+                        <span class="tag" data-type="server">서버필요</span>
+                        <span class="tag" data-type="httpapi">HTTP API 기반</span>
+                    </div>
+                    <ul>
+                        <li>클라이언트가 주기적으로 서버에 데이터 요청</li>
+                        <li>실시간성이 낮고 서버 부하가 높음</li>
+                        <li>구현이 매우 간단하고 직관적</li>
+                        <li>불필요한 요청이 많이 발생할 수 있음</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel" data-module="longpolling">
+                <h2>Long Polling</h2>
+                <div class="description">
+                    <p>HTTP 기반의 서버 푸시 시뮬레이션</p>
+                    <div class="tags">
+                        <span class="tag" data-type="webapi">WebAPI</span>
+                        <span class="tag" data-type="server">서버필요</span>
+                        <span class="tag" data-type="httpapi">HTTP API 기반</span>
+                    </div>
+                    <ul>
+                        <li>클라이언트가 요청을 보내고 서버가 응답할 때까지 대기</li>
+                        <li>서버에서 데이터가 있으면 즉시 응답</li>
+                        <li>실시간성은 떨어지지만 구현이 간단</li>
+                    </ul>
+                </div>
+                <div class="input-group">
+                    <button onclick="toggleLongPolling()" id="longPollingToggle">Long Polling 시작</button>
+                </div>
+            </div>
+
+            <div class="panel" data-module="http2push">
+                <h2>HTTP/2 Server Push</h2>
+                <div class="description">
+                    <p>서버가 클라이언트에게 리소스를 미리 푸시</p>
+                    <div class="tags">
+                        <span class="tag" data-type="server">서버필요</span>
+                        <span class="tag" data-type="httpapi">HTTP API 기반</span>
+                    </div>
+                    <ul>
+                        <li>HTTP/2 프로토콜의 기능</li>
+                        <li>서버가 클라이언트의 요청을 예측하여 리소스 푸시</li>
+                        <li>웹 페이지 로딩 성능 향상</li>
+                        <li>단일 TCP 연결로 여러 리소스 전송</li>
+                        <li>Link 헤더를 통한 푸시 리소스 지정</li>
+                        <li>브라우저 캐시와 연동</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel" data-module="httpstream">
+                <h2>HTTP Streaming</h2>
+                <div class="description">
+                    <p>청크 단위로 데이터를 스트리밍</p>
+                    <div class="tags">
+                        <span class="tag" data-type="server">서버필요</span>
+                        <span class="tag" data-type="httpapi">HTTP API 기반</span>
+                    </div>
+                    <ul>
+                        <li>HTTP 프로토콜의 Transfer-Encoding 기능</li>
+                        <li>대용량 데이터를 청크 단위로 전송</li>
+                        <li>연결을 유지하면서 데이터 전송</li>
+                        <li>스트리밍 미디어, 대용량 파일 전송에 적합</li>
+                        <li>Content-Length 헤더 없이 데이터 전송</li>
+                        <li>청크 크기를 16진수로 지정</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel" data-module="sse">
+                <h2>SSE</h2>
+                <div class="description">
+                    <p>서버에서 클라이언트로의 단방향 실시간 스트리밍</p>
+                    <div class="tags">
+                        <span class="tag" data-type="webapi">WebAPI</span>
+                        <span class="tag" data-type="server">서버필요</span>
+                    </div>
+                    <ul>
+                        <li>HTTP 기반의 서버 푸시 기술</li>
+                        <li>자동 재연결 지원</li>
+                        <li>서버에서 클라이언트로의 단방향 통신만 가능</li>
+                    </ul>
+                </div>
+                <div class="input-group">
+                    <button onclick="toggleSSE()" id="sseToggle">SSE 연결 시작</button>
+                </div>
+            </div>
+
+            <!-- 2. 양방향 실시간 통신 그룹 -->
             <div class="panel" data-module="websocket">
-                <h2>WebSocket 통신</h2>
+                <h2>WebSocket</h2>
                 <div class="description">
                     <p>양방향 실시간 통신</p>
+                    <div class="tags">
+                        <span class="tag" data-type="webapi">WebAPI</span>
+                        <span class="tag" data-type="server">서버필요</span>
+                    </div>
                     <ul>
                         <li>단일 TCP 연결로 양방향 통신 가능</li>
                         <li>지속적인 연결 유지</li>
@@ -67,13 +180,27 @@
             </div>
 
             <div class="panel" data-module="socketio">
-                <h2>Socket.IO 통신</h2>
+                <h2>Socket.IO</h2>
                 <div class="description">
                     <p>WebSocket 기반의 실시간 양방향 통신</p>
+                    <div class="tags">
+                        <span class="tag" data-type="webapi">WebAPI</span>
+                        <span class="tag" data-type="server">서버필요</span>
+                        <span class="tag" data-type="websocket">WebSocket</span>
+                        <span class="tag" data-type="longpolling">Long Polling</span>
+                        <span class="tag" data-type="polling">Polling</span>
+                    </div>
                     <ul>
                         <li>WebSocket을 지원하지 않는 브라우저도 지원</li>
                         <li>자동 재연결, 이벤트 기반 통신</li>
                         <li>방(Room) 기능으로 그룹 통신 지원</li>
+                        <li>자동으로 최적의 통신 방식 선택:
+                            <ul>
+                                <li>WebSocket (기본)</li>
+                                <li>Long Polling (WebSocket 실패 시)</li>
+                                <li>Polling (Long Polling 실패 시)</li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <div class="input-group">
@@ -82,10 +209,14 @@
                 </div>
             </div>
 
+            <!-- 3. 특수 목적 통신 그룹 -->
             <div class="panel" data-module="mqtt">
-                <h2>MQTT 통신</h2>
+                <h2>MQTT</h2>
                 <div class="description">
                     <p>경량 메시지 큐 프로토콜</p>
+                    <div class="tags">
+                        <span class="tag" data-type="server">서버필요</span>
+                    </div>
                     <ul>
                         <li>발행-구독(Pub/Sub) 모델 사용</li>
                         <li>최소한의 대역폭으로 통신</li>
@@ -99,9 +230,12 @@
             </div>
 
             <div class="panel" data-module="webrtc">
-                <h2>WebRTC 통신</h2>
+                <h2>WebRTC</h2>
                 <div class="description">
                     <p>P2P 실시간 통신</p>
+                    <div class="tags">
+                        <span class="tag" data-type="webapi">WebAPI</span>
+                    </div>
                     <ul>
                         <li>브라우저 간 직접 통신 가능</li>
                         <li>음성, 영상, 데이터 통신 지원</li>
@@ -117,44 +251,13 @@
                 </div>
             </div>
 
-            <div class="panel" data-module="sse">
-                <h2>SSE 통신</h2>
-                <div class="description">
-                    <p>서버에서 클라이언트로의 단방향 실시간 스트리밍</p>
-                    <ul>
-                        <li>HTTP 기반의 서버 푸시 기술</li>
-                        <li>자동 재연결 지원</li>
-                        <li>서버에서 클라이언트로의 단방향 통신만 가능</li>
-                    </ul>
-                </div>
-                <div class="input-group">
-                    <input type="text" id="sseMessage" placeholder="메시지를 입력하세요">
-                    <button onclick="sendSSEMessage()">전송</button>
-                    <button onclick="toggleSSE()" id="sseToggle">SSE 연결 시작</button>
-                </div>
-            </div>
-
-            <div class="panel" data-module="longpolling">
-                <h2>Long Polling 통신</h2>
-                <div class="description">
-                    <p>HTTP 기반의 서버 푸시 시뮬레이션</p>
-                    <ul>
-                        <li>클라이언트가 요청을 보내고 서버가 응답할 때까지 대기</li>
-                        <li>서버에서 데이터가 있으면 즉시 응답</li>
-                        <li>실시간성은 떨어지지만 구현이 간단</li>
-                    </ul>
-                </div>
-                <div class="input-group">
-                    <input type="text" id="longPollingMessage" placeholder="메시지를 입력하세요">
-                    <button onclick="sendLongPollingMessage()">전송</button>
-                    <button onclick="toggleLongPolling()" id="longPollingToggle">Long Polling 시작</button>
-                </div>
-            </div>
-
             <div class="panel" data-module="serial">
                 <h2>시리얼 통신</h2>
                 <div class="description">
                     <p>Web Serial API를 사용한 시리얼 통신</p>
+                    <div class="tags">
+                        <span class="tag" data-type="webapi">WebAPI</span>
+                    </div>
                     <ul>
                         <li>직렬 포트를 통한 양방향 통신</li>
                         <li>하드웨어 장치와 직접 통신 가능</li>
@@ -170,9 +273,12 @@
             </div>
 
             <div class="panel" data-module="bluetooth">
-                <h2>블루투스 통신</h2>
+                <h2>블루투스</h2>
                 <div class="description">
                     <p>Web Bluetooth API를 사용한 블루투스 통신</p>
+                    <div class="tags">
+                        <span class="tag" data-type="webapi">WebAPI</span>
+                    </div>
                     <ul>
                         <li>BLE(Bluetooth Low Energy) 장치와 통신</li>
                         <li>저전력 무선 통신</li>

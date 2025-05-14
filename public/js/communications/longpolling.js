@@ -8,12 +8,14 @@ export function toggleLongPolling() {
     const button = document.getElementById('longPollingToggle');
     if (!isLongPollingActive) {
         startLongPolling();
+        startAutoUpdate();
         button.textContent = 'Long Polling 종료';
         isLongPollingActive = true;
     } else {
         if (longPollingTimeout) {
             clearTimeout(longPollingTimeout);
         }
+        stopAutoUpdate();
         button.textContent = 'Long Polling 시작';
         isLongPollingActive = false;
         addLog('Long Polling', 'Long Polling이 종료되었습니다.');
@@ -36,6 +38,41 @@ function startLongPolling() {
                 longPollingTimeout = setTimeout(startLongPolling, 1000);
             }
         });
+}
+
+// 자동 업데이트 시작
+function startAutoUpdate() {
+    fetch('/api/longpoll/auto-update/start', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ interval: 5000 }) // 5초마다 업데이트
+    })
+    .then(response => response.json())
+    .then(data => {
+        addLog('Long Polling', '자동 업데이트가 시작되었습니다.');
+    })
+    .catch(error => {
+        addLog('Long Polling', `자동 업데이트 시작 실패: ${error.message}`);
+    });
+}
+
+// 자동 업데이트 중지
+function stopAutoUpdate() {
+    fetch('/api/longpoll/auto-update/stop', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        addLog('Long Polling', '자동 업데이트가 중지되었습니다.');
+    })
+    .catch(error => {
+        addLog('Long Polling', `자동 업데이트 중지 실패: ${error.message}`);
+    });
 }
 
 // Long Polling 메시지 전송

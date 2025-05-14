@@ -345,4 +345,46 @@ button:hover {
     color: #856404;
     margin: 0.25rem 0;
     font-size: 0.9rem;
+}
+
+.tags {
+    margin: 8px 0;
+}
+
+.tag {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-right: 4px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    color: white;
+}
+
+.tag:last-child {
+    margin-right: 0;
+}
+
+.tag[data-type="webapi"] {
+    background-color: #4CAF50;
+}
+
+.tag[data-type="server"] {
+    background-color: #2196F3;
+}
+
+.tag[data-type="websocket"] {
+    background-color: #9C27B0;
+}
+
+.tag[data-type="longpolling"] {
+    background-color: #FF9800;
+}
+
+.tag[data-type="polling"] {
+    background-color: #795548;
+}
+
+.tag[data-type="httpapi"] {
+    background-color: #607D8B;  /* 청회색 계열 */
+    color: white;
 } 
