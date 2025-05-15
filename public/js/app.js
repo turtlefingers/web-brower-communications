@@ -1,7 +1,7 @@
 // 모듈 import
 import { addLog, initLogContainerResize } from './utils.js';
 import { initWebSocket, sendWsMessage } from './communications/websocket.js';
-import { sendSocketMessage, sendMqttMessage } from './communications/socketio.js';
+import { sendSocketMessage } from './communications/socketio.js';
 import { initPeer, connectPeer, sendPeerMessage } from './communications/webrtc.js';
 import { toggleSSE, sendSSEMessage } from './communications/sse.js';
 import { toggleLongPolling, sendLongPollingMessage } from './communications/longpolling.js';
@@ -30,7 +30,6 @@ async function sendHttpMessage() {
 window.sendHttpMessage = sendHttpMessage;
 window.sendWsMessage = sendWsMessage;
 window.sendSocketMessage = sendSocketMessage;
-window.sendMqttMessage = sendMqttMessage;
 window.connectPeer = connectPeer;
 window.sendPeerMessage = sendPeerMessage;
 window.toggleSSE = toggleSSE;

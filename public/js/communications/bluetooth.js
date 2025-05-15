@@ -94,9 +94,10 @@ export async function sendBluetoothMessage() {
 }
 
 // 데이터 수신 처리
-function handleCharacteristicValueChanged(event) {
+function handleCharacteristicValueChanged(event,callback=()=>{}) {
     const value = event.target.value;
     const decoder = new TextDecoder('utf-8');
     const message = decoder.decode(value);
     addLog('Bluetooth', `수신: ${message}`);
+    callback(message);
 } 

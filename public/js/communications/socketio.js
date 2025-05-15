@@ -21,13 +21,3 @@ export function sendSocketMessage() {
     socket.emit('message', message);
     addLog('Socket.IO', `Sent: ${message}`);
 }
-
-// MQTT 메시지 전송
-export function sendMqttMessage() {
-    const message = document.getElementById('mqttMessage').value;
-    socket.emit('mqtt-publish', {
-        topic: 'test/topic',
-        message: message
-    });
-    addLog('MQTT', `Sent: ${message}`);
-} 

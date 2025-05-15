@@ -1,11 +1,11 @@
-// LED 깜빡임 예제
-const int ledPin = 13;  // LED가 연결된 핀 번호
+// 부저 제어 예제
+const int buzzerPin = 0;  // 부저가 연결된 핀 번호
 int delayTime = 1000;   // 기본 딜레이 시간 (1초)
 
 void setup() {
-  pinMode(ledPin, OUTPUT);  // LED 핀을 출력으로 설정
+  pinMode(buzzerPin, OUTPUT);  // 부저 핀을 출력으로 설정
   Serial.begin(115200);     // 시리얼 통신 시작 (115200 baud rate)
-  Serial.println("Arduino LED 깜빡임 시작!");
+  Serial.println("Arduino 부저 제어 시작!");
 }
 
 void loop() {
@@ -21,11 +21,11 @@ void loop() {
     }
   }
 
-  digitalWrite(ledPin, HIGH);  // LED 켜기
-  Serial.println("LED ON :"+String(delayTime));
+  digitalWrite(buzzerPin, HIGH);  // 부저 켜기
+  Serial.println("부저 ON :" + String(delayTime));
   delay(delayTime);            // 설정된 시간만큼 대기
   
-  digitalWrite(ledPin, LOW);   // LED 끄기
-  Serial.println("LED OFF :"+String(delayTime));
+  digitalWrite(buzzerPin, LOW);   // 부저 끄기
+  Serial.println("부저 OFF :" + String(delayTime));
   delay(delayTime);            // 설정된 시간만큼 대기
 } 

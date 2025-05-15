@@ -35,7 +35,6 @@
             <button class="tab-btn" data-tab="socketio">Socket.IO</button>
             
             <!-- 3. 특수 목적 통신 그룹 -->
-            <button class="tab-btn" data-tab="mqtt">MQTT</button>
             <button class="tab-btn" data-tab="webrtc">WebRTC</button>
             <button class="tab-btn" data-tab="serial">Serial</button>
             <button class="tab-btn" data-tab="bluetooth">Bluetooth</button>
@@ -206,26 +205,6 @@
                 <div class="input-group">
                     <input type="text" id="socketMessage" placeholder="메시지를 입력하세요">
                     <button onclick="sendSocketMessage()">전송</button>
-                </div>
-            </div>
-
-            <!-- 3. 특수 목적 통신 그룹 -->
-            <div class="panel" data-module="mqtt">
-                <h2>MQTT</h2>
-                <div class="description">
-                    <p>경량 메시지 큐 프로토콜</p>
-                    <div class="tags">
-                        <span class="tag" data-type="server">웹서버 필요</span>
-                    </div>
-                    <ul>
-                        <li>발행-구독(Pub/Sub) 모델 사용</li>
-                        <li>최소한의 대역폭으로 통신</li>
-                        <li>IoT 기기에 적합한 프로토콜</li>
-                    </ul>
-                </div>
-                <div class="input-group">
-                    <input type="text" id="mqttMessage" placeholder="메시지를 입력하세요">
-                    <button onclick="sendMqttMessage()">전송</button>
                 </div>
             </div>
 

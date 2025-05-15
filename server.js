@@ -6,7 +6,6 @@ const cors = require('cors');
 const setupHttpServer = require('./src/communications/http');
 const setupWebSocketServer = require('./src/communications/websocket');
 const setupSocketIOServer = require('./src/communications/socketio');
-const setupMQTTClient = require('./src/communications/mqtt');
 const setupSerialPort = require('./src/communications/serial');
 const setupSSEServer = require('./src/communications/sse');
 const setupLongPolling = require('./src/communications/longpolling');
@@ -39,11 +38,6 @@ logger.addLog('', '   ✓ HTTP 서버 설정 완료\n');
 logger.addLog('', '3. WebSocket 서버 설정 중...');
 setupWebSocketServer(server, logger.addLog);
 logger.addLog('', '   ✓ WebSocket 서버 설정 완료\n');
-
-// MQTT 클라이언트 설정
-logger.addLog('', '4. MQTT 클라이언트 설정 중...');
-setupMQTTClient(logger.addLog);
-logger.addLog('', '   ✓ MQTT 클라이언트 설정 완료\n');
 
 // 시리얼 포트 설정
 logger.addLog('', '5. 시리얼 포트 설정 중...');

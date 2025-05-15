@@ -1,19 +1,19 @@
 #include <ArduinoBLE.h>
 
-// LED 핀 설정
-const int ledPin = LED_BUILTIN;
+// 부저 핀 설정
+const int buzzerPin = 0;
 int delayTime = 1000;   // 기본 딜레이 시간 (1초)
 
 // BLE 서비스 및 특성 UUID
-BLEService ledService("0000ffe0-0000-1000-8000-00805f9b34fb");
-BLEByteCharacteristic ledCharacteristic("0000ffe1-0000-1000-8000-00805f9b34fb", BLEWrite | BLENotify);
+BLEService buzzerService("0000ffe0-0000-1000-8000-00805f9b34fb");
+BLEByteCharacteristic buzzerCharacteristic("0000ffe1-0000-1000-8000-00805f9b34fb", BLEWrite | BLENotify);
 
 // 문자열 버퍼
 String inputBuffer = "";
 
 void setup() {
   Serial.begin(115200);
-  pinMode(ledPin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
 
   // BLE 초기화
   if (!BLE.begin()) {
@@ -23,10 +23,10 @@ void setup() {
 
   // BLE 설정
   BLE.setLocalName("Arduino Nano 33 BLE");
-  BLE.setAdvertisedService(ledService);
-  ledService.addCharacteristic(ledCharacteristic);
-  BLE.addService(ledService);
-  ledCharacteristic.writeValue(0);
+  BLE.setAdvertisedService(buzzerService);
+  buzzerService.addCharacteristic(buzzerCharacteristic);
+  BLE.addService(buzzerService);
+  buzzerCharacteristic.writeValue(0);
 
   // BLE 광고 시작
   BLE.advertise();
@@ -45,8 +45,8 @@ void loop() {
     // 연결이 유지되는 동안
     while (central.connected()) {
       // 특성 값이 변경되었는지 확인
-      if (ledCharacteristic.written()) {
-        char receivedChar = (char)ledCharacteristic.value();
+      if (buzzerCharacteristic.written()) {
+        char receivedChar = (char)buzzerCharacteristic.value();
         
         // 0-9 사이의 문자를 받으면 0-900ms로 매핑
         if (receivedChar >= '0' && receivedChar <= '9') {
@@ -58,10 +58,10 @@ void loop() {
         }
       }
 
-      // LED 깜빡임
-      digitalWrite(ledPin, HIGH);
+      // 부저 제어
+      digitalWrite(buzzerPin, HIGH);
       delay(delayTime);
-      digitalWrite(ledPin, LOW);
+      digitalWrite(buzzerPin, LOW);
       delay(delayTime);
     }
 

@@ -2,7 +2,6 @@ const express = require('express');
 const http = require('http');
 const path = require('path');
 const setupSocketIO = require('./communications/socketio');
-const setupMQTT = require('./communications/mqtt');
 const setupSSE = require('./communications/sse');
 const setupLongPolling = require('./communications/longpolling');
 const setupWebSocket = require('./communications/websocket');
@@ -15,9 +14,6 @@ setupWebSocket(server);
 
 // Socket.IO 설정
 setupSocketIO(server);
-
-// MQTT 설정
-setupMQTT();
 
 // SSE 설정
 setupSSE(app);
